@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Inter, Roboto } from "next/font/google";
 import "./globals.css";
 import ThemeProvider from "@/shared/components/ThemeProvider";
 import NavbarClient from "@/shared/components/navbarClient";
+import SmoothScroll from "@/shared/components/SmoothLenis";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -26,7 +27,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           disableTransitionOnChange
         >
           {/* <NavbarClient /> */}
+          <SmoothScroll>
+
           {children}
+          </SmoothScroll>
         </ThemeProvider>
       </body>
     </html>
