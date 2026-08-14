@@ -1,9 +1,463 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useEffect, useState } from "react";
+import {
+  Activity,
+  ArrowRight,
+  Check,
+  ChevronRight,
+  CircleDot,
+  Clock3,
+  Crosshair,
+  HeartPulse,
+  Menu,
+  Moon,
+  Radio,
+  Route,
+  Search,
+  ShieldCheck,
+  Siren,
+  Sparkles,
+  Sun,
+  Zap,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+
+const feed = [
+  [
+    "08:42:18",
+    "AM-204",
+    "accepted cardiac event",
+    "St. Mary's Medical Center",
+    "live",
+  ],
+  [
+    "08:41:52",
+    "AM-118",
+    "rerouted around congestion",
+    "County General Hospital",
+    "safe",
+  ],
+  [
+    "08:40:27",
+    "AM-309",
+    "hospital capacity synced",
+    "Northside Regional",
+    "sync",
+  ],
+  [
+    "08:39:06",
+    "SYS-01",
+    "12 units back in service",
+    "Metro response grid",
+    "ready",
+  ],
+];
+
+function Logo() {
   return (
-    <header>
-      main work 
-      </header>
+    <a
+      href="#top"
+      className="flex items-center gap-3"
+      aria-label="PulseRoute home"
+    >
+      <span className="flex size-9 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-lg shadow-primary/20">
+        <Siren className="size-5" />
+      </span>
+      <span className="text-sm font-semibold tracking-tight">PulseRoute</span>
+    </a>
+  );
+}
+
+function TelemetryPanel() {
+  return (
+    <div className="relative overflow-hidden rounded-[2rem] border border-foreground/10 bg-foreground/[0.035] p-3 shadow-2xl shadow-primary/10 backdrop-blur-xl sm:p-5">
+      <div className="absolute inset-0 telemetry-grid opacity-50" />
+      <div className="relative rounded-[1.35rem] border border-foreground/10 bg-background/90 p-4 sm:p-5">
+        <div className="flex items-center justify-between border-b border-foreground/10 pb-4">
+          <div className="flex items-center gap-2">
+            <span className="flex size-2 rounded-full bg-emerald-500 shadow-[0_0_14px] shadow-emerald-500" />
+            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+              Live operations feed
+            </span>
+          </div>
+          <span className="font-mono text-[10px] text-muted-foreground">
+            SYNC 99.98%
+          </span>
+        </div>
+        <div className="grid gap-3 py-5 sm:grid-cols-3">
+          <div className="rounded-xl border border-foreground/10 bg-foreground/[0.03] p-3">
+            <p className="font-mono text-[10px] text-muted-foreground">
+              ACTIVE UNITS
+            </p>
+            <p className="mt-2 text-2xl font-semibold">
+              24<span className="ml-1 text-sm text-emerald-500">+4</span>
+            </p>
+          </div>
+          <div className="rounded-xl border border-foreground/10 bg-foreground/[0.03] p-3">
+            <p className="font-mono text-[10px] text-muted-foreground">
+              AVG RESPONSE
+            </p>
+            <p className="mt-2 text-2xl font-semibold">08:42</p>
+          </div>
+          <div className="rounded-xl border border-foreground/10 bg-foreground/[0.03] p-3">
+            <p className="font-mono text-[10px] text-muted-foreground">
+              HOSPITALS ONLINE
+            </p>
+            <p className="mt-2 text-2xl font-semibold">
+              18<span className="ml-1 text-sm text-primary">100%</span>
+            </p>
+          </div>
+        </div>
+        <div className="mb-4 rounded-xl border border-primary/20 bg-primary/[0.05] p-4">
+          <div className="mb-4 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Route className="size-4 text-primary" />
+              <span className="text-sm font-semibold">
+                AM-204 → St. Mary&apos;s
+              </span>
+            </div>
+            <Badge variant="secondary" className="rounded-md text-[10px]">
+              EN ROUTE
+            </Badge>
+          </div>
+          <div className="relative h-24 overflow-hidden rounded-lg bg-primary/[0.04] telemetry-map">
+            <div className="route-line" />
+            <span className="absolute bottom-4 left-[12%] flex size-7 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg">
+              <Radio className="size-3.5" />
+            </span>
+            <span className="absolute right-[12%] top-4 flex size-7 items-center justify-center rounded-full bg-emerald-500 text-background shadow-lg">
+              <HeartPulse className="size-3.5" />
+            </span>
+            <span className="absolute left-[40%] top-[44%] size-1.5 rounded-full bg-primary shadow-[0_0_12px] shadow-primary" />
+          </div>
+          <div className="mt-3 flex justify-between font-mono text-[10px] text-muted-foreground">
+            <span>LAT 40.7128</span>
+            <span>ETA 04:12</span>
+            <span>CAPACITY 82%</span>
+          </div>
+        </div>
+        <div className="flex items-center justify-between pb-1">
+          <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+            Event stream
+          </span>
+          <span className="flex items-center gap-1 text-[10px] text-emerald-500">
+            <Activity className="size-3" /> streaming
+          </span>
+        </div>
+        <div className="flex flex-col gap-2">
+          {feed.map(([time, unit, event, place, tone]) => (
+            <div
+              key={time}
+              className="grid grid-cols-[58px_52px_1fr_auto] items-center gap-2 border-t border-foreground/10 py-2.5 text-[11px]"
+            >
+              <span className="font-mono text-muted-foreground">{time}</span>
+              <span className="font-mono font-semibold">{unit}</span>
+              <span className="truncate text-muted-foreground">
+                {event} · {place}
+              </span>
+              <span
+                className={cn(
+                  "size-1.5 rounded-full",
+                  tone === "live"
+                    ? "bg-primary"
+                    : tone === "safe"
+                      ? "bg-emerald-500"
+                      : tone === "sync"
+                        ? "bg-amber-500"
+                        : "bg-foreground/30",
+                )}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function Page() {
+  const [dark, setDark] = useState(true);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    const saved = window.localStorage.getItem("pulseroute-theme");
+    const prefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)",
+    ).matches;
+    setDark(saved ? saved === "dark" : prefersDark);
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", dark);
+    document.documentElement.classList.toggle("light", !dark);
+    window.localStorage.setItem("pulseroute-theme", dark ? "dark" : "light");
+  }, [dark]);
+
+  return (
+    <main
+      id="top"
+      className="min-h-screen overflow-hidden bg-background text-foreground"
+    >
+      <nav className="relative z-20 mx-auto flex max-w-7xl items-center justify-between px-5 py-5 sm:px-8 lg:px-10">
+        <Logo />
+        <div
+          className={cn(
+            "absolute left-5 right-5 top-[76px] rounded-2xl border border-foreground/10 bg-background/95 p-3 shadow-xl backdrop-blur-xl md:static md:flex md:w-auto md:items-center md:gap-8 md:border-0 md:bg-transparent md:p-0 md:shadow-none",
+            mobileOpen ? "flex flex-col gap-3" : "hidden md:flex",
+          )}
+        >
+          <a href="#platform" className="nav-link">
+            Platform
+          </a>
+          <a href="#workflow" className="nav-link">
+            How it works
+          </a>
+          <a href="#signals" className="nav-link">
+            Live signals
+          </a>
+          <a href="#company" className="nav-link">
+            Company
+          </a>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="rounded-full"
+            onClick={() => setDark(!dark)}
+            aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            {dark ? <Sun /> : <Moon />}
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="md:hidden"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="Toggle menu"
+          >
+            <Menu />
+          </Button>
+          <Button variant="outline" className="hidden rounded-full sm:flex">
+            Sign in
+          </Button>
+          <Button className="hidden rounded-full sm:flex">
+            Request access <ArrowRight data-icon="inline-end" />
+          </Button>
+        </div>
+      </nav>
+      <section className="relative mx-auto grid max-w-7xl gap-14 px-5 pb-24 pt-14 sm:px-8 sm:pt-20 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:px-10 lg:pb-32 lg:pt-24">
+        <div className="pointer-events-none absolute -left-24 top-10 size-96 rounded-full bg-primary/10 blur-3xl" />
+        <div className="relative">
+          <Badge
+            variant="outline"
+            className="mb-6 rounded-full border-primary/30 bg-primary/5 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.16em] text-primary"
+          >
+            <span className="mr-2 inline-block size-1.5 rounded-full bg-primary" />
+            Emergency intelligence, in motion
+          </Badge>
+          <h1 className="max-w-2xl text-balance text-5xl font-semibold leading-[0.98] tracking-[-0.055em] sm:text-7xl">
+            Every second has a <span className="text-primary">signal.</span>
+          </h1>
+          <p className="mt-7 max-w-xl text-pretty text-base leading-7 text-muted-foreground sm:text-lg">
+            PulseRoute connects dispatch teams, ambulances, and hospitals in one
+            calm, live operating picture — so the right care is always closer.
+          </p>
+          <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+            <Button size="lg" className="rounded-full px-6">
+              See PulseRoute in action <ArrowRight data-icon="inline-end" />
+            </Button>
+            <Button
+              size="lg"
+              variant="ghost"
+              className="rounded-full px-6"
+            >
+              <a href="#platform">
+                Explore the platform <ChevronRight data-icon="inline-end" />
+              </a>
+            </Button>
+          </div>
+          <div className="mt-12 flex flex-wrap items-center gap-x-7 gap-y-3 text-xs text-muted-foreground">
+            <span className="flex items-center gap-2">
+              <ShieldCheck className="size-4 text-primary" />
+              HIPAA-ready infrastructure
+            </span>
+            <span className="flex items-center gap-2">
+              <Zap className="size-4 text-primary" />
+              Sub-second updates
+            </span>
+          </div>
+        </div>
+        <div className="relative">
+          <div className="absolute -inset-8 rounded-full bg-primary/10 blur-3xl" />
+          <TelemetryPanel />
+        </div>
+      </section>
+      <section
+        id="platform"
+        className="border-y border-foreground/10 bg-foreground/[0.025] px-5 py-20 sm:px-8 lg:px-10"
+      >
+        <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.7fr_1.3fr] lg:items-end">
+          <div>
+            <p className="eyebrow">One operating picture</p>
+            <h2 className="section-title">
+              The infrastructure beneath the response.
+            </h2>
+          </div>
+          <div className="grid gap-8 sm:grid-cols-3">
+            <div>
+              <Crosshair className="mb-4 size-5 text-primary" />
+              <h3 className="font-semibold">See the whole field</h3>
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                One shared map for every unit, route, bed, and handoff.
+              </p>
+            </div>
+            <div>
+              <Clock3 className="mb-4 size-5 text-primary" />
+              <h3 className="font-semibold">Move with context</h3>
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                Signals become decisions before congestion becomes delay.
+              </p>
+            </div>
+            <div>
+              <CircleDot className="mb-4 size-5 text-primary" />
+              <h3 className="font-semibold">Stay in sync</h3>
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                A live system of record for teams that cannot wait.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section
+        id="workflow"
+        className="mx-auto max-w-7xl px-5 py-24 sm:px-8 lg:px-10"
+      >
+        <div className="max-w-xl">
+          <p className="eyebrow">Built for the handoff</p>
+          <h2 className="section-title">From first signal to final arrival.</h2>
+        </div>
+        <div className="mt-14 grid gap-4 md:grid-cols-3">
+          {[
+            [
+              "01",
+              "Receive",
+              "Intake arrives with location, acuity, and the details your team needs.",
+            ],
+            [
+              "02",
+              "Route",
+              "The system finds the safest, fastest path while matching hospital readiness.",
+            ],
+            [
+              "03",
+              "Resolve",
+              "Every handoff is visible, timestamped, and ready for the next decision.",
+            ],
+          ].map(([number, title, body], index) => (
+            <div
+              key={number}
+              className={cn(
+                "group relative rounded-3xl border border-foreground/10 p-6 transition-colors hover:border-primary/40",
+                index === 1 && "bg-primary text-primary-foreground",
+              )}
+            >
+              <span
+                className={cn(
+                  "font-mono text-xs",
+                  index === 1 ? "text-primary-foreground/60" : "text-primary",
+                )}
+              >
+                {number}
+              </span>
+              <h3 className="mt-16 text-xl font-semibold">{title}</h3>
+              <p
+                className={cn(
+                  "mt-3 text-sm leading-6",
+                  index === 1
+                    ? "text-primary-foreground/70"
+                    : "text-muted-foreground",
+                )}
+              >
+                {body}
+              </p>
+              <ArrowRight className="mt-8 size-5 transition-transform group-hover:translate-x-1" />
+            </div>
+          ))}
+        </div>
+      </section>
+      <section
+        id="signals"
+        className="bg-primary px-5 py-20 text-primary-foreground sm:px-8 lg:px-10"
+      >
+        <div className="mx-auto flex max-w-7xl flex-col justify-between gap-10 md:flex-row md:items-end">
+          <div>
+            <p className="eyebrow text-primary-foreground/60">Live signals</p>
+            <h2 className="max-w-2xl text-balance text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">
+              Quiet confidence for high-stakes teams.
+            </h2>
+          </div>
+          <div className="grid grid-cols-2 gap-x-10 gap-y-6 sm:grid-cols-4">
+            <div>
+              <p className="text-3xl font-semibold">99.98%</p>
+              <p className="mt-1 text-xs text-primary-foreground/60">
+                system uptime
+              </p>
+            </div>
+            <div>
+              <p className="text-3xl font-semibold">18</p>
+              <p className="mt-1 text-xs text-primary-foreground/60">
+                hospitals online
+              </p>
+            </div>
+            <div>
+              <p className="text-3xl font-semibold">−24%</p>
+              <p className="mt-1 text-xs text-primary-foreground/60">
+                response variance
+              </p>
+            </div>
+            <div>
+              <p className="text-3xl font-semibold">24/7</p>
+              <p className="mt-1 text-xs text-primary-foreground/60">
+                human support
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section
+        id="company"
+        className="mx-auto flex max-w-7xl flex-col gap-8 px-5 py-20 sm:px-8 lg:flex-row lg:items-center lg:justify-between lg:px-10"
+      >
+        <div>
+          <p className="eyebrow">Ready when you are</p>
+          <h2 className="section-title max-w-xl">
+            Make every response more coordinated.
+          </h2>
+        </div>
+        <Button size="lg" className="w-fit rounded-full px-6">
+          Request a walkthrough <ArrowRight data-icon="inline-end" />
+        </Button>
+      </section>
+      <footer className="border-t border-foreground/10 px-5 py-7 sm:px-8 lg:px-10">
+        <div className="mx-auto flex max-w-7xl flex-col gap-4 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+          <Logo />
+          <span>
+            © 2026 PulseRoute Systems. Built for the moments that matter.
+          </span>
+          <div className="flex gap-5">
+            <a href="#platform" className="hover:text-foreground">
+              Privacy
+            </a>
+            <a href="#company" className="hover:text-foreground">
+              Contact
+            </a>
+          </div>
+        </div>
+      </footer>
+    </main>
   );
 }

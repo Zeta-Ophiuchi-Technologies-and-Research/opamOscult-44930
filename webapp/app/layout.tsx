@@ -25,7 +25,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           defaultTheme="system"
           disableTransitionOnChange
         >
-          <NavbarClient />
+          {/* <NavbarClient /> */}
           {children}
         </ThemeProvider>
       </body>
