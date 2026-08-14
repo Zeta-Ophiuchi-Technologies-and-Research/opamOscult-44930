@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import {
   Activity,
@@ -24,6 +25,13 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+const OperationsMap = dynamic(
+  () =>
+    import("@/components/operations-map").then(
+      (module) => module.OperationsMap,
+    ),
+  { ssr: false },
+);
 
 const feed = [
   [
@@ -332,6 +340,7 @@ export default function Page() {
           </div>
         </div>
       </section>
+      <OperationsMap />
       <section
         id="workflow"
         className="mx-auto max-w-7xl px-5 py-24 sm:px-8 lg:px-10"
