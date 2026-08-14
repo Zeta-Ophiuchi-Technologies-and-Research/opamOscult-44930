@@ -13,7 +13,15 @@ import {
   Separator,
   Spinner,
 } from "@heroui/react";
-import { ArrowUpFromLine, Sparkles, MagnifierMinus, EllipsisVertical, Pencil, SquarePlus, TrashBin } from "@gravity-ui/icons";
+import {
+  ArrowUpFromLine,
+  Sparkles,
+  MagnifierMinus,
+  EllipsisVertical,
+  Pencil,
+  SquarePlus,
+  TrashBin,
+} from "@gravity-ui/icons";
 import { Button, Modal, Dropdown } from "@heroui/react";
 import { motion } from "framer-motion";
 import React from "react";
@@ -105,7 +113,7 @@ export default function NavbarClient() {
             alt="vercel-svg"
             width={40}
             height={40}
-            className="invert-[0.8]"
+            className="invert-[0.8] max-sm:hidden"
           />
           <Image
             src="/next.svg"
@@ -123,62 +131,68 @@ export default function NavbarClient() {
           ))}
         </div>
         <div className=" gap-2 w-1/4 max-md:w-2/4 flex flex-row justify-end">
-        <Dropdown>
-      <Button isIconOnly aria-label="Menu" variant="secondary">
-        <EllipsisVertical className="outline-none" />
-      </Button>
-      <Dropdown.Popover>
-        <Dropdown.Menu onAction={(key) => console.log(`Selected: ${key}`)}>
-          <Dropdown.Section>
-            <Header>Actions</Header>
-            <Dropdown.Item id="new-file" textValue="New file">
-              <div className="flex h-8 items-start justify-center pt-px">
-                <SquarePlus className="size-4 shrink-0 text-muted" />
-              </div>
-              <div className="flex flex-col">
-                <Label>New file</Label>
-                <Description>Create a new file</Description>
-              </div>
-              <Kbd className="ms-auto" slot="keyboard" variant="light">
-                <Kbd.Abbr keyValue="command" />
-                <Kbd.Content>N</Kbd.Content>
-              </Kbd>
-            </Dropdown.Item>
-            <Dropdown.Item id="edit-file" textValue="Edit file">
-              <div className="flex h-8 items-start justify-center pt-px">
-                <Pencil className="size-4 shrink-0 text-muted" />
-              </div>
-              <div className="flex flex-col">
-                <Label>Edit file</Label>
-                <Description>Make changes</Description>
-              </div>
-              <Kbd className="ms-auto" slot="keyboard" variant="light">
-                <Kbd.Abbr keyValue="command" />
-                <Kbd.Content>E</Kbd.Content>
-              </Kbd>
-            </Dropdown.Item>
-          </Dropdown.Section>
-          <Separator />
-          <Dropdown.Section>
-            <Header>Danger zone</Header>
-            <Dropdown.Item id="delete-file" textValue="Delete file" variant="danger">
-              <div className="flex h-8 items-start justify-center pt-px">
-                <TrashBin className="size-4 shrink-0 text-danger" />
-              </div>
-              <div className="flex flex-col">
-                <Label>Delete file</Label>
-                <Description>Move to trash</Description>
-              </div>
-              <Kbd className="ms-auto" slot="keyboard" variant="light">
-                <Kbd.Abbr keyValue="command" />
-                <Kbd.Abbr keyValue="shift" />
-                <Kbd.Content>D</Kbd.Content>
-              </Kbd>
-            </Dropdown.Item>
-          </Dropdown.Section>
-        </Dropdown.Menu>
-      </Dropdown.Popover>
-    </Dropdown>
+          <Dropdown>
+            <Button isIconOnly aria-label="Menu" variant="secondary">
+              <EllipsisVertical className="outline-none" />
+            </Button>
+            <Dropdown.Popover>
+              <Dropdown.Menu
+                onAction={(key) => console.log(`Selected: ${key}`)}
+              >
+                <Dropdown.Section>
+                  <Header>Actions</Header>
+                  <Dropdown.Item id="new-file" textValue="New file">
+                    <div className="flex h-8 items-start justify-center pt-px">
+                      <SquarePlus className="size-4 shrink-0 text-muted" />
+                    </div>
+                    <div className="flex flex-col">
+                      <Label>New file</Label>
+                      <Description>Create a new file</Description>
+                    </div>
+                    <Kbd className="ms-auto" slot="keyboard" variant="light">
+                      <Kbd.Abbr keyValue="command" />
+                      <Kbd.Content>N</Kbd.Content>
+                    </Kbd>
+                  </Dropdown.Item>
+                  <Dropdown.Item id="edit-file" textValue="Edit file">
+                    <div className="flex h-8 items-start justify-center pt-px">
+                      <Pencil className="size-4 shrink-0 text-muted" />
+                    </div>
+                    <div className="flex flex-col">
+                      <Label>Edit file</Label>
+                      <Description>Make changes</Description>
+                    </div>
+                    <Kbd className="ms-auto" slot="keyboard" variant="light">
+                      <Kbd.Abbr keyValue="command" />
+                      <Kbd.Content>E</Kbd.Content>
+                    </Kbd>
+                  </Dropdown.Item>
+                </Dropdown.Section>
+                <Separator />
+                <Dropdown.Section>
+                  <Header>Danger zone</Header>
+                  <Dropdown.Item
+                    id="delete-file"
+                    textValue="Delete file"
+                    variant="danger"
+                  >
+                    <div className="flex h-8 items-start justify-center pt-px">
+                      <TrashBin className="size-4 shrink-0 text-danger" />
+                    </div>
+                    <div className="flex flex-col">
+                      <Label>Delete file</Label>
+                      <Description>Move to trash</Description>
+                    </div>
+                    <Kbd className="ms-auto" slot="keyboard" variant="light">
+                      <Kbd.Abbr keyValue="command" />
+                      <Kbd.Abbr keyValue="shift" />
+                      <Kbd.Content>D</Kbd.Content>
+                    </Kbd>
+                  </Dropdown.Item>
+                </Dropdown.Section>
+              </Dropdown.Menu>
+            </Dropdown.Popover>
+          </Dropdown>
           <Separator orientation="vertical" />
           <ThemeSwitch />
           <Separator orientation="vertical" />
