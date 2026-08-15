@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Checkbox } from "@heroui/react";
+import { Checkbox, Separator } from "@heroui/react";
 
 const videoSrc = "/simpsonwae.mp4";
 
@@ -286,15 +286,24 @@ export default function SignInPage() {
               <ShieldCheck className="size-4 text-primary" />
               Protected with enterprise-grade encryption.
             </div>
-            <p className="mt-8 text-center text-xs text-muted-foreground">
+            <div className="mt-8 text-center text-xs text-muted-foreground">
               New to PulseRoute?{" "}
-              <Link
-                href="/#contact"
-                className="font-medium text-foreground underline underline-offset-4"
-              >
-                Request access
-              </Link>
-            </p>
+              <div className="flex flex-row items-center justify-center gap-2">
+                <Link
+                  href="/#contact"
+                  className="font-medium text-foreground underline underline-offset-4"
+                >
+                  Request access
+                </Link>
+                <Separator orientation="vertical" />
+                <Link
+                  href="/sign-in/clerk-auth-signin"
+                  className="font-medium text-foreground underline underline-offset-4"
+                >
+                  Clerk signin
+                </Link>
+              </div>
+            </div>
           </div>
         </section>
       </div>
