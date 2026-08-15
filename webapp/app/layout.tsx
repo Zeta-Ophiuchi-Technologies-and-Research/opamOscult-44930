@@ -2,8 +2,16 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter, Roboto } from "next/font/google";
 import "./globals.css";
 import ThemeProvider from "@/shared/components/ThemeProvider";
-import NavbarClient from "@/shared/components/navbarClient";
 import SmoothScroll from "@/shared/components/SmoothLenis";
+import {
+  ClerkProvider,
+  Show,
+  SignInButton,
+  SignOutButton,
+  SignUpButton,
+  UserButton,
+} from "@clerk/nextjs";
+import Link from "next/link";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -18,19 +26,22 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${inter.variable}  h-full antialiased`} 
-    suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${inter.variable}  h-full antialiased`}
+      suppressHydrationWarning
+    >
       <body className={`  min-h-full flex flex-col`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           disableTransitionOnChange
         >
-          {/* <NavbarClient /> */}
-          <SmoothScroll>
-
-          {children}
-          </SmoothScroll>
+          <ClerkProvider>
+            <SmoothScroll>
+              {children}
+            </SmoothScroll>
+          </ClerkProvider>
         </ThemeProvider>
       </body>
     </html>

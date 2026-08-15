@@ -25,6 +25,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { UserButton, useAuth } from "@clerk/nextjs";
 const OperationsMap = dynamic(
   () =>
     import("@/components/operations-map").then(
@@ -80,6 +82,7 @@ function Logo() {
 }
 
 function TelemetryPanel() {
+ 
   return (
     <div className="relative overflow-hidden rounded-[2rem] border border-foreground/10 bg-foreground/[0.035] p-3 shadow-2xl shadow-primary/10 backdrop-blur-xl sm:p-5">
       <div className="absolute inset-0 telemetry-grid opacity-50" />
@@ -189,6 +192,7 @@ function TelemetryPanel() {
 export default function Page() {
   const [dark, setDark] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);
+   const { isLoaded, isSignedIn, userId } = useAuth()
 
   useEffect(() => {
     const saved = window.localStorage.getItem("pulseroute-theme");
@@ -249,12 +253,22 @@ export default function Page() {
           >
             <Menu />
           </Button>
-          <Button variant="outline" className="hidden rounded-full sm:flex">
-            Sign in
-          </Button>
-          <Button className="hidden rounded-full sm:flex">
-            Request access <ArrowRight data-icon="inline-end" />
-          </Button>
+           {isSignedIn ? (
+            <UserButton />
+          ) : (
+            <Link href="/sign-in">
+              <Button className="hidden rounded-full sm:flex">
+                Sign in <ArrowRight data-icon="inline-end" />
+              </Button>
+            </Link>
+          )}
+          {isSignedIn && (
+            <Link href="/patient-utility">
+              <Button className="hidden rounded-full sm:flex bg-transparent text-primary border border-primary hover:bg-primary/10 cursor-pointer">
+                Check your Utility <ArrowRight data-icon="inline-end" />
+              </Button>
+            </Link>
+          )}
         </div>
       </nav>
       <section className="relative mx-auto grid max-w-7xl gap-14 px-5 pb-24 pt-14 sm:px-8 sm:pt-20 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:px-10 lg:pb-32 lg:pt-24">
@@ -458,9 +472,9 @@ export default function Page() {
             © 2026 PulseRoute Systems. Built for the moments that matter.
           </span>
           <div className="flex gap-5">
-            <a href="#platform" className="hover:text-foreground">
-              Privacy
-            </a>
+            <Link href="/backend" className="hover:text-foreground">
+              Authorised login only
+            </Link>
             <a href="#company" className="hover:text-foreground">
               Contact
             </a>
