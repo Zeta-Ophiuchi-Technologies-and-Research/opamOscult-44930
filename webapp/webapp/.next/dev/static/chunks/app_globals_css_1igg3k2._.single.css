@@ -120,8 +120,11 @@
     --color-cyan-200: #a2f4fd;
     --color-cyan-300: #53eafd;
     --color-cyan-400: #00d2ef;
+    --color-blue-500: #3080ff;
+    --color-pink-500: #f6339a;
     --color-slate-950: #020618;
     --color-gray-950: #030712;
+    --color-zinc-950: #09090b;
     --color-black: #000;
     --color-white: #fff;
     --spacing: .25rem;
@@ -208,8 +211,11 @@
       --color-cyan-200: lab(91.0821% -24.0435 -12.8306);
       --color-cyan-300: lab(85.3886% -36.7636 -21.5716);
       --color-cyan-400: lab(76.6045% -40.9406 -29.6231);
+      --color-blue-500: lab(54.1736% 13.3369 -74.6839);
+      --color-pink-500: lab(56.9303% 76.8162 -8.07021);
       --color-slate-950: lab(1.76974% 1.32743 -9.28855);
       --color-gray-950: lab(1.90334% .278696 -5.48866);
+      --color-zinc-950: lab(2.51107% .242703 -.886115);
     }
   }
 
@@ -14759,8 +14765,36 @@
     height: calc(var(--spacing) * 48);
   }
 
+  .h-96 {
+    height: calc(var(--spacing) * 96);
+  }
+
+  .h-\[3\=80vh\] {
+    height: 3=80vh;
+  }
+
+  .h-\[30vh\] {
+    height: 30vh;
+  }
+
+  .h-\[50vh\] {
+    height: 50vh;
+  }
+
+  .h-\[80vh\] {
+    height: 80vh;
+  }
+
+  .h-\[100vh\] {
+    height: 100vh;
+  }
+
   .h-\[210px\] {
     height: 210px;
+  }
+
+  .h-\[300vh\] {
+    height: 300vh;
   }
 
   .h-\[360px\] {
@@ -15237,16 +15271,8 @@
     border-radius: calc(var(--radius) * 2);
   }
 
-  .rounded-3xl {
-    border-radius: calc(var(--radius) * 3);
-  }
-
   .rounded-4xl {
     border-radius: calc(var(--radius) * 4);
-  }
-
-  .rounded-\[1\.35rem\] {
-    border-radius: 1.35rem;
   }
 
   .rounded-\[2px\] {
@@ -15584,6 +15610,10 @@
     }
   }
 
+  .bg-blue-500 {
+    background-color: var(--color-blue-500);
+  }
+
   .bg-border {
     background-color: var(--border);
   }
@@ -15736,6 +15766,16 @@
     }
   }
 
+  .bg-pink-500\/50 {
+    background-color: #f6339a80;
+  }
+
+  @supports (color: color-mix(in lab, red, red)) {
+    .bg-pink-500\/50 {
+      background-color: color-mix(in oklab, var(--color-pink-500) 50%, transparent);
+    }
+  }
+
   .bg-popover {
     background-color: var(--popover);
   }
@@ -15872,6 +15912,11 @@
     }
   }
 
+  .bg-gradient-to-b {
+    --tw-gradient-position: to bottom in oklab;
+    background-image: linear-gradient(var(--tw-gradient-stops));
+  }
+
   .bg-gradient-to-t {
     --tw-gradient-position: to top in oklab;
     background-image: linear-gradient(var(--tw-gradient-stops));
@@ -15900,6 +15945,20 @@
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
   }
 
+  .from-zinc-950\/0 {
+    --tw-gradient-from: #0000;
+  }
+
+  @supports (color: color-mix(in lab, red, red)) {
+    .from-zinc-950\/0 {
+      --tw-gradient-from: color-mix(in oklab, var(--color-zinc-950) 0%, transparent);
+    }
+  }
+
+  .from-zinc-950\/0 {
+    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+  }
+
   .via-transparent {
     --tw-gradient-via: transparent;
     --tw-gradient-via-stops: var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-via) var(--tw-gradient-via-position), var(--tw-gradient-to) var(--tw-gradient-to-position);
@@ -15925,8 +15984,25 @@
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
   }
 
+  .to-zinc-950 {
+    --tw-gradient-to: var(--color-zinc-950);
+    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+  }
+
+  .bg-cover {
+    background-size: cover;
+  }
+
   .bg-clip-padding {
     background-clip: padding-box;
+  }
+
+  .bg-center {
+    background-position: center;
+  }
+
+  .bg-no-repeat {
+    background-repeat: no-repeat;
   }
 
   .fill-current {

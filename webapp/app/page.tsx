@@ -3,6 +3,12 @@
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import {
+  motion,
+  useScroll,
+  useTransform,
+  useMotionTemplate,
+} from "framer-motion";
+import {
   Activity,
   ArrowRight,
   Check,
@@ -27,6 +33,11 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { UserButton, useAuth } from "@clerk/nextjs";
+
+
+  const SECTION_HEIGHT = 1000;
+
+
 const OperationsMap = dynamic(
   () =>
     import("@/components/operations-map").then(
@@ -73,7 +84,7 @@ function Logo() {
       className="flex items-center gap-3"
       aria-label="PulseRoute home"
     >
-      <span className="flex size-9 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-lg shadow-primary/20">
+      <span className="flex size-9 items-center justify-center xl bg-primary text-primary-foreground shadow-lg shadow-primary/20">
         <Siren className="size-5" />
       </span>
       <span className="text-sm font-semibold tracking-tight">PulseRoute</span>
@@ -82,14 +93,13 @@ function Logo() {
 }
 
 function TelemetryPanel() {
- 
   return (
-    <div className="relative overflow-hidden rounded-[2rem] border border-foreground/10 bg-foreground/[0.035] p-3 shadow-2xl shadow-primary/10 backdrop-blur-xl sm:p-5">
+    <div className="relative overflow-hidden [2rem] border border-foreground/10 bg-foreground/[0.035] p-3 shadow-2xl shadow-primary/10 backdrop-blur-xl sm:p-5">
       <div className="absolute inset-0 telemetry-grid opacity-50" />
-      <div className="relative rounded-[1.35rem] border border-foreground/10 bg-background/90 p-4 sm:p-5">
+      <div className="relative [1.35rem] border border-foreground/10 bg-background/90 p-4 sm:p-5">
         <div className="flex items-center justify-between border-b border-foreground/10 pb-4">
           <div className="flex items-center gap-2">
-            <span className="flex size-2 rounded-full bg-emerald-500 shadow-[0_0_14px] shadow-emerald-500" />
+            <span className="flex size-2 full bg-emerald-500 shadow-[0_0_14px] shadow-emerald-500" />
             <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
               Live operations feed
             </span>
@@ -99,7 +109,7 @@ function TelemetryPanel() {
           </span>
         </div>
         <div className="grid gap-3 py-5 sm:grid-cols-3">
-          <div className="rounded-xl border border-foreground/10 bg-foreground/[0.03] p-3">
+          <div className="xl border border-foreground/10 bg-foreground/[0.03] p-3">
             <p className="font-mono text-[10px] text-muted-foreground">
               ACTIVE UNITS
             </p>
@@ -107,13 +117,13 @@ function TelemetryPanel() {
               24<span className="ml-1 text-sm text-emerald-500">+4</span>
             </p>
           </div>
-          <div className="rounded-xl border border-foreground/10 bg-foreground/[0.03] p-3">
+          <div className="xl border border-foreground/10 bg-foreground/[0.03] p-3">
             <p className="font-mono text-[10px] text-muted-foreground">
               AVG RESPONSE
             </p>
             <p className="mt-2 text-2xl font-semibold">08:42</p>
           </div>
-          <div className="rounded-xl border border-foreground/10 bg-foreground/[0.03] p-3">
+          <div className="xl border border-foreground/10 bg-foreground/[0.03] p-3">
             <p className="font-mono text-[10px] text-muted-foreground">
               HOSPITALS ONLINE
             </p>
@@ -122,7 +132,7 @@ function TelemetryPanel() {
             </p>
           </div>
         </div>
-        <div className="mb-4 rounded-xl border border-primary/20 bg-primary/[0.05] p-4">
+        <div className="mb-4 xl border border-primary/20 bg-primary/[0.05] p-4">
           <div className="mb-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Route className="size-4 text-primary" />
@@ -130,19 +140,19 @@ function TelemetryPanel() {
                 AM-204 → St. Mary&apos;s
               </span>
             </div>
-            <Badge variant="secondary" className="rounded-md text-[10px]">
+            <Badge variant="secondary" className="md text-[10px]">
               EN ROUTE
             </Badge>
           </div>
-          <div className="relative h-24 overflow-hidden rounded-lg bg-primary/[0.04] telemetry-map">
+          <div className="relative h-24 overflow-hidden lg bg-primary/[0.04] telemetry-map">
             <div className="route-line" />
-            <span className="absolute bottom-4 left-[12%] flex size-7 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg">
+            <span className="absolute bottom-4 left-[12%] flex size-7 items-center justify-center full bg-primary text-primary-foreground shadow-lg">
               <Radio className="size-3.5" />
             </span>
-            <span className="absolute right-[12%] top-4 flex size-7 items-center justify-center rounded-full bg-emerald-500 text-background shadow-lg">
+            <span className="absolute right-[12%] top-4 flex size-7 items-center justify-center full bg-emerald-500 text-background shadow-lg">
               <HeartPulse className="size-3.5" />
             </span>
-            <span className="absolute left-[40%] top-[44%] size-1.5 rounded-full bg-primary shadow-[0_0_12px] shadow-primary" />
+            <span className="absolute left-[40%] top-[44%] size-1.5 full bg-primary shadow-[0_0_12px] shadow-primary" />
           </div>
           <div className="mt-3 flex justify-between font-mono text-[10px] text-muted-foreground">
             <span>LAT 40.7128</span>
@@ -171,7 +181,7 @@ function TelemetryPanel() {
               </span>
               <span
                 className={cn(
-                  "size-1.5 rounded-full",
+                  "size-1.5 full",
                   tone === "live"
                     ? "bg-primary"
                     : tone === "safe"
@@ -192,7 +202,7 @@ function TelemetryPanel() {
 export default function Page() {
   const [dark, setDark] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);
-   const { isLoaded, isSignedIn, userId } = useAuth()
+  const { isLoaded, isSignedIn, userId } = useAuth();
 
   useEffect(() => {
     const saved = window.localStorage.getItem("pulseroute-theme");
@@ -209,15 +219,12 @@ export default function Page() {
   }, [dark]);
 
   return (
-    <main
-      id="top"
-      className="min-h-screen overflow-hidden bg-background text-foreground"
-    >
+    <main id="top" className="min-h-screen  bg-background text-foreground">
       <nav className="relative z-20 mx-auto flex max-w-7xl items-center justify-between px-5 py-5 sm:px-8 lg:px-10">
         <Logo />
         <div
           className={cn(
-            "absolute left-5 right-5 top-[76px] rounded-2xl border border-foreground/10 bg-background/95 p-3 shadow-xl backdrop-blur-xl md:static md:flex md:w-auto md:items-center md:gap-8 md:border-0 md:bg-transparent md:p-0 md:shadow-none",
+            "absolute left-5 right-5 top-[76px] 2xl border border-foreground/10 bg-background/95 p-3 shadow-xl backdrop-blur-xl md:static md:flex md:w-auto md:items-center md:gap-8 md:border-0 md:bg-transparent md:p-0 md:shadow-none",
             mobileOpen ? "flex flex-col gap-3" : "hidden md:flex",
           )}
         >
@@ -238,7 +245,7 @@ export default function Page() {
           <Button
             variant="ghost"
             size="icon"
-            className="rounded-full"
+            className="full"
             onClick={() => setDark(!dark)}
             aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
           >
@@ -253,18 +260,18 @@ export default function Page() {
           >
             <Menu />
           </Button>
-           {isSignedIn ? (
+          {isSignedIn ? (
             <UserButton />
           ) : (
             <Link href="/sign-in">
-              <Button className="hidden rounded-full sm:flex">
+              <Button className="hidden full sm:flex">
                 Sign in <ArrowRight data-icon="inline-end" />
               </Button>
             </Link>
           )}
           {isSignedIn && (
             <Link href="/patient-utility">
-              <Button className="hidden rounded-full sm:flex bg-transparent text-primary border border-primary hover:bg-primary/10 cursor-pointer">
+              <Button className="hidden full sm:flex bg-transparent text-primary border border-primary hover:bg-primary/10 cursor-pointer">
                 Check your Utility <ArrowRight data-icon="inline-end" />
               </Button>
             </Link>
@@ -272,13 +279,13 @@ export default function Page() {
         </div>
       </nav>
       <section className="relative mx-auto grid max-w-7xl gap-14 px-5 pb-24 pt-14 sm:px-8 sm:pt-20 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:px-10 lg:pb-32 lg:pt-24">
-        <div className="pointer-events-none absolute -left-24 top-10 size-96 rounded-full bg-primary/10 blur-3xl" />
+        <div className="pointer-events-none absolute -left-24 top-10 size-96 full bg-primary/10 blur-3xl" />
         <div className="relative">
           <Badge
             variant="outline"
-            className="mb-6 rounded-full border-primary/30 bg-primary/5 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.16em] text-primary"
+            className="mb-6 full border-primary/30 bg-primary/5 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.16em] text-primary"
           >
-            <span className="mr-2 inline-block size-1.5 rounded-full bg-primary" />
+            <span className="mr-2 inline-block size-1.5 full bg-primary" />
             Emergency intelligence, in motion
           </Badge>
           <h1 className="max-w-2xl text-balance text-5xl font-semibold leading-[0.98] tracking-[-0.055em] sm:text-7xl">
@@ -289,14 +296,10 @@ export default function Page() {
             calm, live operating picture — so the right care is always closer.
           </p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-            <Button size="lg" className="rounded-full px-6">
+            <Button size="lg" className="full px-6">
               See PulseRoute in action <ArrowRight data-icon="inline-end" />
             </Button>
-            <Button
-              size="lg"
-              variant="ghost"
-              className="rounded-full px-6"
-            >
+            <Button size="lg" variant="ghost" className="full px-6">
               <a href="#platform">
                 Explore the platform <ChevronRight data-icon="inline-end" />
               </a>
@@ -314,7 +317,7 @@ export default function Page() {
           </div>
         </div>
         <div className="relative">
-          <div className="absolute -inset-8 rounded-full bg-primary/10 blur-3xl" />
+          <div className="absolute -inset-8 full bg-primary/10 blur-3xl" />
           <TelemetryPanel />
         </div>
       </section>
@@ -354,6 +357,15 @@ export default function Page() {
           </div>
         </div>
       </section>
+       <div
+      style={{ height: `calc(${SECTION_HEIGHT}px + 50vh)` }}
+      className="relative w-full bg-black"
+    >
+      <CenterImage />
+
+      <div className="absolute bottom-0 left-0 right-0 h-96 bg-gradient-to-b from-zinc-950/0 to-zinc-950" />
+    </div>
+      
       <OperationsMap />
       <section
         id="workflow"
@@ -384,7 +396,7 @@ export default function Page() {
             <div
               key={number}
               className={cn(
-                "group relative rounded-3xl border border-foreground/10 p-6 transition-colors hover:border-primary/40",
+                "group relative 3xl border border-foreground/10 p-6 transition-colors hover:border-primary/40",
                 index === 1 && "bg-primary text-primary-foreground",
               )}
             >
@@ -412,6 +424,7 @@ export default function Page() {
           ))}
         </div>
       </section>
+     
       <section
         id="signals"
         className="bg-primary px-5 py-20 text-primary-foreground sm:px-8 lg:px-10"
@@ -461,7 +474,7 @@ export default function Page() {
             Make every response more coordinated.
           </h2>
         </div>
-        <Button size="lg" className="w-fit rounded-full px-6">
+        <Button size="lg" className="w-fit full px-6">
           Request a walkthrough <ArrowRight data-icon="inline-end" />
         </Button>
       </section>
@@ -484,3 +497,37 @@ export default function Page() {
     </main>
   );
 }
+
+const CenterImage = () => {
+  const { scrollY } = useScroll();
+
+  const clip1 = useTransform(scrollY, [0, 1500], [25, 0]);
+  const clip2 = useTransform(scrollY, [0, 1500], [75, 100]);
+
+  const clipPath = useMotionTemplate`polygon(${clip1}% ${clip1}%, ${clip2}% ${clip1}%, ${clip2}% ${clip2}%, ${clip1}% ${clip2}%)`;
+
+  const backgroundSize = useTransform(
+    scrollY,
+    [0, SECTION_HEIGHT + 500],
+    ["170%", "100%"]
+  );
+  const opacity = useTransform(
+    scrollY,
+    [SECTION_HEIGHT, SECTION_HEIGHT + 500],
+    [1,1/2]
+  );
+
+  return (
+    <motion.div
+      className="sticky top-0 h-screen w-full"
+      style={{
+        clipPath,
+        backgroundSize,
+        opacity,
+       
+      }}
+    >
+      <video autoPlay loop muted={false} className="absolute inset-0 h-full w-full object-cover" src="/sliders.mp4" />
+    </motion.div>
+  );
+};
