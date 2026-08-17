@@ -121,7 +121,6 @@
     --color-cyan-200: #a2f4fd;
     --color-cyan-300: #53eafd;
     --color-cyan-400: #00d2ef;
-    --color-rose-500: #ff2357;
     --color-slate-950: #020618;
     --color-gray-950: #030712;
     --color-zinc-950: #09090b;
@@ -211,7 +210,6 @@
       --color-cyan-200: lab(91.0821% -24.0435 -12.8306);
       --color-cyan-300: lab(85.3886% -36.7636 -21.5716);
       --color-cyan-400: lab(76.6045% -40.9406 -29.6231);
-      --color-rose-500: lab(56.101% 79.4328 31.4532);
       --color-slate-950: lab(1.76974% 1.32743 -9.28855);
       --color-gray-950: lab(1.90334% .278696 -5.48866);
       --color-zinc-950: lab(2.51107% .242703 -.886115);
@@ -15099,10 +15097,6 @@
     align-items: flex-start;
   }
 
-  .justify-around {
-    justify-content: space-around;
-  }
-
   .justify-between {
     justify-content: space-between;
   }
@@ -15801,10 +15795,6 @@
     .bg-primary\/\[0\.05\] {
       background-color: color-mix(in oklab, var(--primary) 5%, transparent);
     }
-  }
-
-  .bg-rose-500 {
-    background-color: var(--color-rose-500);
   }
 
   .bg-secondary {
