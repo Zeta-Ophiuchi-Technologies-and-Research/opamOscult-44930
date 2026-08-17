@@ -337,7 +337,6 @@ function TelemetryPanel() {
   );
 }
 
-
 export default function Page() {
   const [dark, setDark] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -367,18 +366,18 @@ export default function Page() {
             mobileOpen ? "flex flex-col gap-3" : "hidden md:flex",
           )}
         >
-          <a href="#platform" className="nav-link">
+          <Link href="#platform" className="nav-link">
             Platform
-          </a>
-          <a href="#workflow" className="nav-link">
+          </Link>
+          <Link href="/frontals/how-it-works" className="nav-link">
             How it works
-          </a>
-          <a href="#signals" className="nav-link">
+          </Link>
+          <Link href="/frontals/live-signals" className="nav-link">
             Live signals
-          </a>
-          <a href="#company" className="nav-link">
+          </Link>
+          <Link href="/frontals/company" className="nav-link">
             Company
-          </a>
+          </Link>
         </div>
         <div className="flex items-center gap-2">
           <Button
